@@ -1,0 +1,23 @@
+{
+  "name": "hackrnws-gql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vamtha/hackrnws-gql.git"
+  },
+  "keywords": [],
+  "author": "Jonathan Vazquez <vamtha24@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vamtha/hackrnws-gql/issues"
+  },
+  "homepage": "https://github.com/vamtha/hackrnws-gql#readme",
+  "dependencies": {
+    "graphql-yoga": "^1.16.2"
+  }
+}
