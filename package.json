@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "playground": "graphql playground --dotenv ./.env",
+    "dev": "npm-run-all --parallel start playground",
     "deploy": "prisma deploy -e ./.env"
   },
   "repository": {
@@ -20,9 +21,14 @@
   },
   "homepage": "https://github.com/vamtha/hackrnws-gql#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^6.0.0",
     "graphql-cli": "^2.16.7",
     "graphql-yoga": "^1.16.2",
+    "jsonwebtoken": "^8.3.0",
     "prisma-binding": "^2.1.6"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.3"
   }
 }
