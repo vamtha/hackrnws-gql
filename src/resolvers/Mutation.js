@@ -50,7 +50,17 @@ async function addLink(root, args, ctx, info) {
 }
 
 function updateLink(root, args, ctx, info) {
-  return 'update a link';
+  const userId = getUserId(ctx);
+
+  return ctx.db.mutation.updateLink({
+    data: {
+      url: args.url,
+      description: args.description
+    },
+    where: {
+      id: args.id,
+    },
+  }, info);
 }
 
 async function deleteLink(root, args, ctx, info) {
