@@ -16,8 +16,9 @@ async function signup(parent, args, ctx, info) {
 
 async function login(parent, args, ctx, info) {
   const { query } = ctx.db;
+  const where = { where: { email: args.email } };
 
-  const user = await query.user({ where: { email: args.email }}, `{ id password }`);
+  const user = await query.user(where, `{ id password }`);
 
   if(!user) throw new Error('No such User found');
 
@@ -30,23 +31,40 @@ async function login(parent, args, ctx, info) {
 }
 
 
-function addLink(root, args, ctx, info) {
+async function addLink(root, args, ctx, info) {
   const userId = getUserId(ctx);
-  return ctx.db.mutation.createLink({
+
+  if(!userId) {
+    throw new Error('You must be logged in to do that');
+  }
+
+  const link = await ctx.db.mutation.createLink({
     data: {
       url: args.url,
       description: args.description,
       postedBy: { connect: { id: userId } },
     }
   }, info);
+
+  return link;
 }
 
-function updateLink() {
+function updateLink(root, args, ctx, info) {
   return 'update a link';
 }
 
-function deleteLink() {
-  return 'delete a link';
+async function deleteLink(root, args, ctx, info) {
+  const userId = getUserId(ctx);
+  const where = { where: { id: args.id } };
+
+  const link = await ctx.db.query.link(where, `{ id url postedBy { id } }`);
+  const ownItem = link.postedBy.id === userId;
+
+  if(!ownItem) {
+    throw new Error('You dont have permission to do that!');
+  }
+
+  return ctx.db.mutation.deleteLink(where, info);
 }
 
 module.exports = {
