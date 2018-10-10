@@ -77,10 +77,31 @@ async function deleteLink(root, args, ctx, info) {
   return ctx.db.mutation.deleteLink(where, info);
 }
 
+async function vote(root, args, ctx, info) {
+  const userId = getUserId(ctx);
+
+  const linkExist = await ctx.db.exists.Vote({
+    user: { id: userId },
+    link: { id: args.linkId },
+  });
+
+  if(linkExist) {
+    throw new Error(`Already voted for link: ${args.linkId}`);
+  }
+
+  return ctx.db.mutation.createVote({
+    data: {
+      user: { connect: { id: userId } },
+      link: { connect: { id: args.linkId }},
+    },
+  }, info);
+}
+
 module.exports = {
   signup,
   login,
   addLink,
   updateLink,
-  deleteLink
+  deleteLink,
+  vote
 };
