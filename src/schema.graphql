@@ -1,4 +1,4 @@
-# import Link from "./generated/prisma.graphql"
+# import Link, LinkSubscriptionPayload from "./generated/prisma.graphql"
 
 type AuthPayload {
   token: String
@@ -25,3 +25,6 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload
 }
 
+type Subscription {
+  newLink: LinkSubscriptionPayload
+}
